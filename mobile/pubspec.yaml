@@ -1,0 +1,42 @@
+name: fresh_corner_mobile
+description: Fresh Corner User Mobile App
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firebase
+  firebase_core: ^2.30.1
+  firebase_auth: ^4.19.6
+  cloud_firestore: ^4.17.4
+  firebase_messaging: ^14.9.4
+
+  # HTTP & State
+  http: ^1.2.1
+  provider: ^6.1.2
+  shared_preferences: ^2.2.3
+
+  # UI
+  cached_network_image: ^3.3.1
+  flutter_svg: ^2.0.10+1
+  shimmer: ^3.0.0
+
+  # Other
+  intl: ^0.19.0
+  url_launcher: ^6.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/

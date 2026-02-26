@@ -1,0 +1,61 @@
+name: Build Flutter Desktop (Linux/Ubuntu)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'desktop/**'
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y \
+            clang cmake ninja-build pkg-config \
+            libgtk-3-dev liblzma-dev libstdc++-12-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.0'
+          channel: stable
+          cache: true
+
+      - name: Enable Linux desktop
+        run: flutter config --enable-linux-desktop
+
+      - name: Install dependencies
+        working-directory: desktop
+        run: flutter pub get
+
+      - name: Build Linux
+        working-directory: desktop
+        run: |
+          flutter build linux --release \
+            --dart-define=API_URL=${{ secrets.API_URL }}
+
+      - name: Package Linux build
+        run: |
+          cd desktop/build/linux/x64/release/bundle
+          tar -czf fresh-corner-desktop-linux.tar.gz .
+
+      - name: Upload Linux build
+        uses: actions/upload-artifact@v4
+        with:
+          name: fresh-corner-desktop-linux
+          path: desktop/build/linux/x64/release/bundle/fresh-corner-desktop-linux.tar.gz
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: desktop/build/linux/x64/release/bundle/fresh-corner-desktop-linux.tar.gz
+          name: Fresh Corner Desktop ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

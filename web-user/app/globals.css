@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --g1: #2ECC71;
+  --g2: #27AE60;
+  --o1: #FF6B35;
+}
+
+body {
+  font-family: 'Hind Siliguri', sans-serif;
+  background: #F4F6F8;
+  color: #1A2332;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2ECC71; border-radius: 2px; }

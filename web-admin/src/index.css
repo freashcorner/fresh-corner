@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --yaru-orange: #E95420;
+  --g1: #26A269;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Ubuntu', 'Hind Siliguri', sans-serif;
+  background: #1C1C1C;
+  color: #F2F2F2;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #2D2D2D; }
+::-webkit-scrollbar-thumb { background: #4A4A4A; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #E95420; }
