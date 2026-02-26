@@ -2,7 +2,10 @@ import { Router } from "express";
 import multer from "multer";
 import { adminMiddleware, AuthRequest } from "../middleware/auth.middleware";
 import { uploadImageBuffer, deleteImage } from "../services/cloudinary.service";
-import { APP_CONFIG } from "../../../shared/constants/config";
+const APP_CONFIG = {
+  CLOUDINARY_PRODUCTS_FOLDER: "fresh-corner/products",
+  CLOUDINARY_CATEGORIES_FOLDER: "fresh-corner/categories",
+};
 
 const router = Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
