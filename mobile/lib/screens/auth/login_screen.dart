@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import '../../providers/auth_provider.dart';
+import '../../providers/auth_provider.dart' as app_auth;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
       await _confirmationResult!.confirm(_otpCtrl.text);
       // Check if user registered
       try {
-        await context.read<AuthProvider>()._fetchAppUser();
+        await context.read<app_auth.AuthProvider>()._fetchAppUser();
         if (mounted) Navigator.pushReplacementNamed(context, '/home');
       } catch (_) {
         setState(() { _step = 'register'; _loading = false; });
@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _register() async {
     setState(() => _loading = true);
     try {
-      await context.read<AuthProvider>().register(_nameCtrl.text, _phoneCtrl.text);
+      await context.read<app_auth.AuthProvider>().register(_nameCtrl.text, _phoneCtrl.text);
       if (mounted) Navigator.pushReplacementNamed(context, '/home');
     } catch (_) {
       setState(() => _loading = false);

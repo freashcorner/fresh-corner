@@ -60,8 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
         destinations: [
           const NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: 'হোম'),
           NavigationDestination(
-            icon: Badge(count: cartCount, child: const Icon(Icons.shopping_cart_outlined)),
-            selectedIcon: Badge(count: cartCount, child: const Icon(Icons.shopping_cart)),
+            icon: Badge(label: cartCount > 0 ? Text('$cartCount') : null, child: const Icon(Icons.shopping_cart_outlined)),
+            selectedIcon: Badge(label: cartCount > 0 ? Text('$cartCount') : null, child: const Icon(Icons.shopping_cart)),
             label: 'কার্ট',
           ),
           const NavigationDestination(icon: Icon(Icons.receipt_long_outlined), selectedIcon: Icon(Icons.receipt_long), label: 'অর্ডার'),
