@@ -18,6 +18,19 @@ async function getCategoryData(slug: string) {
   };
 }
 
+export async function generateStaticParams() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "categories"));
+    const params = querySnapshot.docs.map((doc) => ({
+      slug: doc.data().slug,
+    }));
+    return params;
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    return [];
+  }
+}
+
 export default async function CategoryPage({ params }: { params: { slug: string } }) {
   const { category, products } = await getCategoryData(params.slug);
 
