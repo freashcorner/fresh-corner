@@ -4,18 +4,26 @@ import ProductCard from "@/components/product/ProductCard";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-async function getCategoryData(slug: string) {
-  const catsSnap = await getDocs(query(collection(db, "categories"), where("slug", "==", slug)));
-  const cat = catsSnap.docs[0];
-  if (!cat) return { category: null, products: [] };
+// Revalidate every 1 hour
+export const revalidate = 3600;
 
-  const productsSnap = await getDocs(
-    query(collection(db, "products"), where("categoryId", "==", cat.id), where("isActive", "==", true))
-  );
-  return {
-    category: { id: cat.id, ...cat.data() } as any,
-    products: productsSnap.docs.map((d) => ({ id: d.id, ...d.data() })) as any[],
-  };
+async function getCategoryData(slug: string) {
+  try {
+    const catsSnap = await getDocs(query(collection(db, "categories"), where("slug", "==", slug)));
+    const cat = catsSnap.docs[0];
+    if (!cat) return { category: null, products: [] };
+
+    const productsSnap = await getDocs(
+      query(collection(db, "products"), where("categoryId", "==", cat.id), where("isActive", "==", true))
+    );
+    return {
+      category: { id: cat.id, ...cat.data() } as any,
+      products: productsSnap.docs.map((d) => ({ id: d.id, ...d.data() })) as any[],
+    };
+  } catch (error) {
+    console.error("Error fetching category data:", error);
+    return { category: null, products: [] };
+  }
 }
 
 export async function generateStaticParams() {

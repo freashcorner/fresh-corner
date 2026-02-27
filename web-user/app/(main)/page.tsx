@@ -3,17 +3,30 @@ import { db } from "@/lib/firebase";
 import ProductCard from "@/components/product/ProductCard";
 import Link from "next/link";
 
+// Revalidate every 1 hour
+export const revalidate = 3600;
+
 async function getHomeData() {
-  const [catsSnap, featuredSnap, productsSnap] = await Promise.all([
-    getDocs(query(collection(db, "categories"), where("isActive", "==", true), orderBy("order"), limit(10))),
-    getDocs(query(collection(db, "products"), where("isActive", "==", true), where("isFeatured", "==", true), limit(6))),
-    getDocs(query(collection(db, "products"), where("isActive", "==", true), orderBy("createdAt", "desc"), limit(12))),
-  ]);
-  return {
-    categories: catsSnap.docs.map((d) => ({ id: d.id, ...d.data() })) as any[],
-    featured: featuredSnap.docs.map((d) => ({ id: d.id, ...d.data() })) as any[],
-    products: productsSnap.docs.map((d) => ({ id: d.id, ...d.data() })) as any[],
-  };
+  try {
+    const [catsSnap, featuredSnap, productsSnap] = await Promise.all([
+      getDocs(query(collection(db, "categories"), where("isActive", "==", true), orderBy("order"), limit(10))),
+      getDocs(query(collection(db, "products"), where("isActive", "==", true), where("isFeatured", "==", true), limit(6))),
+      getDocs(query(collection(db, "products"), where("isActive", "==", true), orderBy("createdAt", "desc"), limit(12))),
+    ]);
+    return {
+      categories: catsSnap.docs.map((d) => ({ id: d.id, ...d.data() })) as any[],
+      featured: featuredSnap.docs.map((d) => ({ id: d.id, ...d.data() })) as any[],
+      products: productsSnap.docs.map((d) => ({ id: d.id, ...d.data() })) as any[],
+    };
+  } catch (error) {
+    console.error("Error fetching home data:", error);
+    // Return empty arrays on error - ISR will regenerate with real data on-demand
+    return {
+      categories: [],
+      featured: [],
+      products: [],
+    };
+  }
 }
 
 export default async function HomePage() {
