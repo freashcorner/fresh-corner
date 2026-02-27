@@ -18,8 +18,6 @@ async function getCategoryData(slug: string) {
   };
 }
 
-export const dynamicParams = true;
-
 export async function generateStaticParams() {
   try {
     const querySnapshot = await getDocs(collection(db, "categories"));
@@ -29,7 +27,6 @@ export async function generateStaticParams() {
     return params;
   } catch (error) {
     console.error("Error generating static params:", error);
-    // Return empty array to allow ISR - pages will be generated on first request
     return [];
   }
 }
