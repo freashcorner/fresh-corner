@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - 'web-user/**'
+      - '.firebaserc'
+      - 'firebase.json'
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
