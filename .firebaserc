@@ -1,0 +1,13 @@
+{
+  "projects": {
+    "default": "fresh-corner-a9db9"
+  },
+  "targets": {
+    "fresh-corner-a9db9": {
+      "hosting": {
+        "user": ["freshcorner"],
+        "admin": ["freshcorner-admin"]
+      }
+    }
+  }
+}
