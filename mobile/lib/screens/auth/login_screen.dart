@@ -42,11 +42,13 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _loading = true);
     try {
       await _confirmationResult!.confirm(_otpCtrl.text);
-      // Check if user registered
-      try {
-        await context.read<app_auth.AuthProvider>()._fetchAppUser();
-        if (mounted) Navigator.pushReplacementNamed(context, '/home');
-      } catch (_) {
+      // Wait briefly for authStateChanges to fetch app user
+      await Future.delayed(const Duration(milliseconds: 500));
+      if (!mounted) return;
+      final appUser = context.read<app_auth.AuthProvider>().appUser;
+      if (appUser != null) {
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
         setState(() { _step = 'register'; _loading = false; });
       }
     } catch (_) {
