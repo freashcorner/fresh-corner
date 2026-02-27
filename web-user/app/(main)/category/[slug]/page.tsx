@@ -4,7 +4,7 @@ import ProductCard from "@/components/product/ProductCard";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export const dynamicParams = true;
+export const dynamicParams = false;
 
 // Revalidate every 1 hour
 export const revalidate = 3600;
@@ -34,10 +34,11 @@ export async function generateStaticParams() {
     const params = querySnapshot.docs.map((doc) => ({
       slug: doc.data().slug,
     }));
-    return params;
+    return params.length > 0 ? params : [{ slug: "default" }];
   } catch (error) {
     console.error("Error generating static params:", error);
-    return [];
+    // Return fallback param for static export to work
+    return [{ slug: "default" }];
   }
 }
 
