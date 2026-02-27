@@ -4,6 +4,8 @@ import ProductCard from "@/components/product/ProductCard";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
+export const dynamicParams = true;
+
 // Revalidate every 1 hour
 export const revalidate = 3600;
 

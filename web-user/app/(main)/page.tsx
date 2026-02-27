@@ -20,7 +20,7 @@ async function getHomeData() {
     };
   } catch (error) {
     console.error("Error fetching home data:", error);
-    // Return empty arrays on error - ISR will regenerate with real data on-demand
+    // Return empty arrays on error - will be filled with real data after deployment
     return {
       categories: [],
       featured: [],

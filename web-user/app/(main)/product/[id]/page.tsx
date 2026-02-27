@@ -2,6 +2,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import ProductClient from "./product-client";
 
+export const dynamicParams = true;
+
 // Revalidate every 1 hour
 export const revalidate = 3600;
 
