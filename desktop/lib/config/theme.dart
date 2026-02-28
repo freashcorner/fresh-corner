@@ -45,7 +45,7 @@ ThemeData buildYaruTheme() {
       titleMedium: TextStyle(color: YaruColors.text, fontWeight: FontWeight.w600, fontFamily: 'Ubuntu'),
       labelSmall: TextStyle(color: YaruColors.text3, fontFamily: 'Ubuntu'),
     ),
-    cardTheme: CardThemeData(
+    cardTheme: CardTheme(
       color: YaruColors.card,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
