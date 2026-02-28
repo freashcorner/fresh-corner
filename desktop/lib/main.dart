@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/orders_screen.dart';
 import 'screens/products_screen.dart';
 import 'screens/delivery_screen.dart';
+import 'screens/login_screen.dart';
+import 'services/auth_service.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(const FreshCornerDesktopApp());
 }
 
-class FreshCornerDesktopApp extends StatelessWidget {
+class FreshCornerDesktopApp extends StatefulWidget {
   const FreshCornerDesktopApp({super.key});
+
+  @override
+  State<FreshCornerDesktopApp> createState() => _FreshCornerDesktopAppState();
+}
+
+class _FreshCornerDesktopAppState extends State<FreshCornerDesktopApp> {
+  bool _loggedIn = AuthService.isLoggedIn;
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +35,16 @@ class FreshCornerDesktopApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFF1C1C1C),
         useMaterial3: true,
       ),
-      home: const AdminShell(),
+      home: _loggedIn
+          ? AdminShell(onLogout: () => setState(() { AuthService.logout(); _loggedIn = false; }))
+          : LoginScreen(onLoginSuccess: () => setState(() => _loggedIn = true)),
     );
   }
 }
 
 class AdminShell extends StatefulWidget {
-  const AdminShell({super.key});
+  final VoidCallback onLogout;
+  const AdminShell({super.key, required this.onLogout});
 
   @override
   State<AdminShell> createState() => _AdminShellState();
@@ -76,6 +86,19 @@ class _AdminShellState extends State<AdminShell> {
                 width: 40, height: 40,
                 decoration: BoxDecoration(color: const Color(0xFFE95420), borderRadius: BorderRadius.circular(10)),
                 child: const Icon(Icons.storefront, color: Colors.white, size: 22),
+              ),
+            ),
+            trailing: Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: IconButton(
+                    icon: const Icon(Icons.logout, color: Colors.white38),
+                    tooltip: 'লগআউট',
+                    onPressed: widget.onLogout,
+                  ),
+                ),
               ),
             ),
             destinations: _navItems,

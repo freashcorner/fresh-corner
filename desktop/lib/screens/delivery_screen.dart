@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../services/api_service.dart';
 
 class DeliveryScreen extends StatefulWidget {
@@ -16,6 +15,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   final _riderPhoneCtrl = TextEditingController();
   final _etaCtrl = TextEditingController();
   bool _assigning = false;
+  List<Map<String, dynamic>> _deliveries = [];
+  bool _loading = true;
 
   static const Map<String, String> STATUS_LABEL = {
     'assigned': 'নিযুক্ত',
@@ -23,6 +24,26 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     'on_way': 'পথে আছে',
     'delivered': 'পৌঁছে গেছে',
   };
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDeliveries();
+  }
+
+  Future<void> _loadDeliveries() async {
+    setState(() => _loading = true);
+    try {
+      final res = await ApiService.get('/api/delivery');
+      final list = (res is List) ? res : (res['deliveries'] ?? []) as List;
+      setState(() {
+        _deliveries = List<Map<String, dynamic>>.from(list);
+        _loading = false;
+      });
+    } catch (e) {
+      setState(() => _loading = false);
+    }
+  }
 
   Future<void> _assign() async {
     setState(() => _assigning = true);
@@ -35,7 +56,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
         'estimatedTime': _etaCtrl.text,
       });
       _orderIdCtrl.clear(); _riderIdCtrl.clear(); _riderNameCtrl.clear(); _riderPhoneCtrl.clear(); _etaCtrl.clear();
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('রাইডার নিযুক্ত হয়েছে')));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('রাইডার নিযুক্ত হয়েছে')));
+        _loadDeliveries();
+      }
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('ত্রুটি: $e')));
     } finally {
@@ -43,8 +67,9 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     }
   }
 
-  Future<void> _updateStatus(String orderId, String status) async {
-    await ApiService.patch('/api/delivery/$orderId/status', {'status': status});
+  Future<void> _updateStatus(String deliveryId, String status) async {
+    await ApiService.patch('/api/delivery/$deliveryId/status', {'status': status});
+    _loadDeliveries();
   }
 
   @override
@@ -126,69 +151,71 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 24, 24, 16),
-                  child: Text('ডেলিভারি তালিকা',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 24, 24, 16),
+                  child: Row(
+                    children: [
+                      const Text('ডেলিভারি তালিকা',
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                      const SizedBox(width: 12),
+                      IconButton(
+                        icon: const Icon(Icons.refresh, color: Colors.white38),
+                        onPressed: _loadDeliveries,
+                      ),
+                    ],
+                  ),
                 ),
                 Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('deliveries')
-                        .orderBy('assignedAt', descending: true)
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) return const Center(child: CircularProgressIndicator(color: Color(0xFFE95420)));
-                      final docs = snapshot.data!.docs;
-                      if (docs.isEmpty) return const Center(child: Text('কোনো ডেলিভারি নেই', style: TextStyle(color: Colors.white38)));
-
-                      return SingleChildScrollView(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 24, 24),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF2D2D2D),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.white.withOpacity(0.08)),
-                          ),
-                          child: DataTable(
-                            headingRowColor: MaterialStateProperty.all(Colors.white.withOpacity(0.04)),
-                            columns: const [
-                              DataColumn(label: Text('অর্ডার', style: TextStyle(color: Colors.white54))),
-                              DataColumn(label: Text('রাইডার', style: TextStyle(color: Colors.white54))),
-                              DataColumn(label: Text('আনুমানিক সময়', style: TextStyle(color: Colors.white54))),
-                              DataColumn(label: Text('স্ট্যাটাস', style: TextStyle(color: Colors.white54))),
-                            ],
-                            rows: docs.map((doc) {
-                              final d = doc.data() as Map<String, dynamic>;
-                              return DataRow(cells: [
-                                DataCell(Text(d['orderId']?.toString().substring(0, 8) ?? '—',
-                                    style: const TextStyle(color: Colors.white54, fontSize: 12, fontFamily: 'monospace'))),
-                                DataCell(Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(d['riderName'] ?? '—', style: const TextStyle(color: Colors.white, fontSize: 13)),
-                                    Text(d['riderPhone'] ?? '', style: const TextStyle(color: Colors.white38, fontSize: 11)),
+                  child: _loading
+                      ? const Center(child: CircularProgressIndicator(color: Color(0xFFE95420)))
+                      : _deliveries.isEmpty
+                          ? const Center(child: Text('কোনো ডেলিভারি নেই', style: TextStyle(color: Colors.white38)))
+                          : SingleChildScrollView(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 24, 24),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF2D2D2D),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Colors.white.withOpacity(0.08)),
+                                ),
+                                child: DataTable(
+                                  headingRowColor: WidgetStateProperty.all(Colors.white.withOpacity(0.04)),
+                                  columns: const [
+                                    DataColumn(label: Text('অর্ডার', style: TextStyle(color: Colors.white54))),
+                                    DataColumn(label: Text('রাইডার', style: TextStyle(color: Colors.white54))),
+                                    DataColumn(label: Text('আনুমানিক সময়', style: TextStyle(color: Colors.white54))),
+                                    DataColumn(label: Text('স্ট্যাটাস', style: TextStyle(color: Colors.white54))),
                                   ],
-                                )),
-                                DataCell(Text(d['estimatedTime'] ?? '—', style: const TextStyle(color: Colors.white54))),
-                                DataCell(DropdownButton<String>(
-                                  value: d['status'] ?? 'assigned',
-                                  dropdownColor: const Color(0xFF3C3C3C),
-                                  style: const TextStyle(color: Colors.white, fontSize: 13),
-                                  underline: const SizedBox(),
-                                  items: STATUS_LABEL.entries.map((e) =>
-                                    DropdownMenuItem(value: e.key, child: Text(e.value))
-                                  ).toList(),
-                                  onChanged: (val) { if (val != null) _updateStatus(doc.id, val); },
-                                )),
-                              ]);
-                            }).toList(),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                                  rows: _deliveries.map((d) {
+                                    final id = (d['_id'] ?? d['id'] ?? '').toString();
+                                    final orderId = (d['orderId'] ?? '').toString();
+                                    return DataRow(cells: [
+                                      DataCell(Text(orderId.length >= 8 ? orderId.substring(0, 8) : orderId,
+                                          style: const TextStyle(color: Colors.white54, fontSize: 12, fontFamily: 'monospace'))),
+                                      DataCell(Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(d['riderName'] ?? '—', style: const TextStyle(color: Colors.white, fontSize: 13)),
+                                          Text(d['riderPhone'] ?? '', style: const TextStyle(color: Colors.white38, fontSize: 11)),
+                                        ],
+                                      )),
+                                      DataCell(Text(d['estimatedTime'] ?? '—', style: const TextStyle(color: Colors.white54))),
+                                      DataCell(DropdownButton<String>(
+                                        value: d['status'] ?? 'assigned',
+                                        dropdownColor: const Color(0xFF3C3C3C),
+                                        style: const TextStyle(color: Colors.white, fontSize: 13),
+                                        underline: const SizedBox(),
+                                        items: STATUS_LABEL.entries.map((e) =>
+                                          DropdownMenuItem(value: e.key, child: Text(e.value))
+                                        ).toList(),
+                                        onChanged: (val) { if (val != null) _updateStatus(id, val); },
+                                      )),
+                                    ]);
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
                 ),
               ],
             ),
