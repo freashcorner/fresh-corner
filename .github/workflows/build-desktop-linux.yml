@@ -84,20 +84,19 @@ jobs:
 
       - name: Package Linux build
         run: |
-          cd desktop/build/linux/x64/release/bundle
-          tar -czf fresh-corner-desktop-linux.tar.gz .
+          tar -czf /tmp/fresh-corner-desktop-linux.tar.gz -C desktop/build/linux/x64/release/bundle .
 
       - name: Upload Linux build
         uses: actions/upload-artifact@v4
         with:
           name: fresh-corner-desktop-linux
-          path: desktop/build/linux/x64/release/bundle/fresh-corner-desktop-linux.tar.gz
+          path: /tmp/fresh-corner-desktop-linux.tar.gz
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: desktop/build/linux/x64/release/bundle/fresh-corner-desktop-linux.tar.gz
+          files: /tmp/fresh-corner-desktop-linux.tar.gz
           name: Fresh Corner Desktop ${{ github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
