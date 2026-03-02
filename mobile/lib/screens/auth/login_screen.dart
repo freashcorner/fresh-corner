@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart' as app_auth;
@@ -134,7 +135,10 @@ class _LoginScreenState extends State<LoginScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('🛒', style: TextStyle(fontSize: 36)),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: SvgPicture.asset('assets/images/icon.svg', width: 48, height: 48),
+                  ),
                   const SizedBox(height: 12),
                   const Text(
                     'ফ্রেশ কর্নার',

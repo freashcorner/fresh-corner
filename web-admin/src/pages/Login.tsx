@@ -34,7 +34,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="bg-[#2D2D2D] rounded-xl p-8 border border-white/10">
           <div className="text-center mb-8">
-            <div className="w-14 h-14 bg-yaru-orange rounded-xl flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">FC</div>
+            <img src="/icon.svg" alt="Fresh Corner" className="w-14 h-14 rounded-xl mx-auto mb-4" />
             <h1 className="text-xl font-semibold text-white font-bangla">ফ্রেশ কর্নার</h1>
             <p className="text-white/40 text-sm mt-1">Admin Panel</p>
           </div>

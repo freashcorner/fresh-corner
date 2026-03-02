@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../config/theme.dart';
 import '../../config/routes.dart';
 import '../../services/auth_service.dart';
@@ -27,18 +28,9 @@ class Sidebar extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             child: Row(
               children: [
-                Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF1A4731), Color(0xFF2ECC71)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                  child: const Icon(Icons.eco, color: Colors.white, size: 20),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SvgPicture.asset('assets/icon.svg', width: 36, height: 36),
                 ),
                 const SizedBox(width: 10),
                 const Expanded(

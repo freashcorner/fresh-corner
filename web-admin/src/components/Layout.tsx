@@ -102,7 +102,7 @@ export default function Layout() {
       <aside className="w-[220px] flex flex-col bg-[#252525] border-r border-white/10 flex-shrink-0">
         {/* Logo */}
         <div className="flex items-center gap-3 px-4 py-4 border-b border-white/10">
-          <div className="w-8 h-8 rounded-lg bg-yaru-orange flex items-center justify-center text-white font-bold text-sm">FC</div>
+          <img src="/icon.svg" alt="Fresh Corner" className="w-8 h-8 rounded-lg" />
           <div>
             <div className="text-sm font-semibold text-white font-bangla">ফ্রেশ কর্নার</div>
             <div className="text-[10px] text-white/40">Admin Panel</div>

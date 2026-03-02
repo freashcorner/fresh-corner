@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../config/theme.dart';
 import '../services/auth_service.dart';
 
@@ -48,17 +49,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: 56, height: 56,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF1A4731), Color(0xFF2ECC71)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: const Icon(Icons.eco, color: Colors.white, size: 28),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(14),
+                child: SvgPicture.asset('assets/icon.svg', width: 56, height: 56),
               ),
               const SizedBox(height: 16),
               const Text('ফ্রেশ কর্নার', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF2ECC71))),

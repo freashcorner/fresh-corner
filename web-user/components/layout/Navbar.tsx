@@ -10,7 +10,10 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-[#2ECC71] shadow-md">
       <div className="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
         <div>
-          <Link href="/" className="text-white font-bold text-lg font-tiro">ফ্রেশ কর্নার</Link>
+          <Link href="/" className="flex items-center gap-2">
+            <img src="/icon.svg" alt="Fresh Corner" className="w-7 h-7 rounded-md" />
+            <span className="text-white font-bold text-lg font-tiro">ফ্রেশ কর্নার</span>
+          </Link>
           <div className="flex items-center gap-1 text-white/80 text-xs mt-0.5">
             <MapPin size={10} /> ঢাকা, বাংলাদেশ
           </div>
