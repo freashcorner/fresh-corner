@@ -16,7 +16,11 @@ void main() async {
       statusBarIconBrightness: Brightness.light,
     ),
   );
-  await Firebase.initializeApp();
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    debugPrint('Firebase init error: $e');
+  }
   runApp(const FreshCornerApp());
 }
 
@@ -113,7 +117,7 @@ class FreshCornerApp extends StatelessWidget {
           return const IconThemeData(color: Colors.grey);
         }),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         color: Colors.white,

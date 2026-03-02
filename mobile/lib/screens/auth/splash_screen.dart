@@ -26,23 +26,34 @@ class _SplashScreenState extends State<SplashScreen>
       CurvedAnimation(parent: _controller, curve: const Interval(0, 0.6)),
     );
     _controller.forward();
-    Future.delayed(const Duration(milliseconds: 2400), _navigate);
+    _waitAndNavigate();
+  }
+
+  Future<void> _waitAndNavigate() async {
+    // Wait for splash animation
+    await Future.delayed(const Duration(milliseconds: 2400));
+    if (!mounted) return;
+
+    // Wait for auth state to resolve (max 5 seconds)
+    final auth = context.read<AuthProvider>();
+    int waited = 0;
+    while (auth.loading && waited < 5000) {
+      await Future.delayed(const Duration(milliseconds: 200));
+      waited += 200;
+    }
+    if (!mounted) return;
+
+    if (auth.isLoggedIn) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      Navigator.pushReplacementNamed(context, '/login');
+    }
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  void _navigate() {
-    if (!mounted) return;
-    final auth = context.read<AuthProvider>();
-    if (auth.isLoggedIn) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else {
-      Navigator.pushReplacementNamed(context, '/login');
-    }
   }
 
   @override

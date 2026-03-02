@@ -30,7 +30,9 @@ class AuthProvider extends ChangeNotifier {
     try {
       final data = await ApiService.get('/api/auth/me');
       _appUser = AppUser.fromMap(data, _firebaseUser!.uid);
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('Failed to fetch app user: $e');
+    }
   }
 
   Future<void> register(String name, String phone) async {
