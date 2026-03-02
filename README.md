@@ -8,12 +8,190 @@
 
 ```
 fresh-corner/
-├── web-user/     # Next.js 14 — User Website
-├── web-admin/    # React + Vite — Admin Panel
-├── backend/      # Node.js Express — API Server
-├── mobile/       # Flutter — Android APK
-├── desktop/      # Flutter — Ubuntu Desktop Admin
-└── shared/       # Common TypeScript types & constants
+├── .github/workflows/
+│   ├── build-desktop-linux.yml         # Flutter desktop build
+│   ├── build-mobile-apk.yml           # Android APK build
+│   ├── deploy-backend.yml             # Backend deploy
+│   ├── deploy-web-admin.yml           # Web admin deploy
+│   └── deploy-web-user.yml            # Web user deploy
+│
+├── backend/                            # Node.js Express — API Server
+│   ├── Dockerfile
+│   ├── tsconfig.json
+│   └── src/
+│       ├── app.ts
+│       ├── middleware/
+│       │   ├── auth.middleware.ts
+│       │   └── error.middleware.ts
+│       ├── routes/
+│       │   ├── auth.routes.ts
+│       │   ├── user.routes.ts
+│       │   ├── product.routes.ts
+│       │   ├── category.routes.ts
+│       │   ├── order.routes.ts
+│       │   ├── delivery.routes.ts
+│       │   ├── payment.routes.ts
+│       │   ├── settings.routes.ts
+│       │   └── upload.routes.ts
+│       └── services/
+│           ├── firebase.service.ts
+│           ├── cloudinary.service.ts
+│           └── notification.service.ts
+│
+├── desktop/                            # Flutter — Ubuntu Desktop Admin
+│   └── lib/
+│       ├── main.dart
+│       ├── config/
+│       │   ├── theme.dart
+│       │   └── routes.dart
+│       ├── screens/
+│       │   ├── login_screen.dart
+│       │   ├── dashboard/
+│       │   │   └── dashboard_screen.dart
+│       │   ├── orders/
+│       │   │   ├── orders_screen.dart
+│       │   │   ├── dispatch_screen.dart
+│       │   │   └── returns_screen.dart
+│       │   ├── products/
+│       │   │   ├── products_screen.dart
+│       │   │   ├── categories_screen.dart
+│       │   │   └── inventory_screen.dart
+│       │   ├── users/
+│       │   │   ├── customers_screen.dart
+│       │   │   ├── riders_screen.dart
+│       │   │   ├── vendors_screen.dart
+│       │   │   └── staff_screen.dart
+│       │   ├── marketing/
+│       │   │   ├── promos_screen.dart
+│       │   │   ├── notifications_screen.dart
+│       │   │   └── banners_screen.dart
+│       │   ├── finance/
+│       │   │   ├── finance_screen.dart
+│       │   │   └── payouts_screen.dart
+│       │   ├── analytics/
+│       │   │   ├── analytics_screen.dart
+│       │   │   └── reports_screen.dart
+│       │   ├── monitoring/
+│       │   │   └── live_monitor_screen.dart
+│       │   └── system/
+│       │       ├── support_screen.dart
+│       │       ├── settings_screen.dart
+│       │       └── activity_logs_screen.dart
+│       ├── services/
+│       │   ├── api_service.dart
+│       │   ├── auth_service.dart
+│       │   └── mock_data_service.dart
+│       └── widgets/
+│           ├── shell/
+│           │   ├── admin_shell.dart
+│           │   ├── sidebar.dart
+│           │   └── headerbar.dart
+│           └── shared/
+│               ├── stat_card.dart
+│               ├── data_table_card.dart
+│               ├── status_badge.dart
+│               ├── tab_bar_pills.dart
+│               ├── section_header.dart
+│               ├── search_field.dart
+│               ├── empty_placeholder.dart
+│               ├── donut_chart.dart
+│               └── bar_chart.dart
+│
+├── mobile/                             # Flutter — Android APK
+│   └── lib/
+│       ├── main.dart
+│       ├── models/
+│       │   ├── product.dart
+│       │   ├── order.dart
+│       │   └── user.dart
+│       ├── providers/
+│       │   ├── auth_provider.dart
+│       │   └── cart_provider.dart
+│       ├── services/
+│       │   ├── firebase_service.dart
+│       │   └── api_service.dart
+│       └── screens/
+│           ├── auth/
+│           │   ├── splash_screen.dart
+│           │   └── login_screen.dart
+│           ├── home/
+│           │   ├── home_screen.dart
+│           │   └── widgets/
+│           │       ├── product_card.dart
+│           │       ├── category_chip.dart
+│           │       ├── banner_slider.dart
+│           │       └── shimmer_grid.dart
+│           ├── product/
+│           │   └── product_detail_screen.dart
+│           ├── cart/
+│           │   └── cart_screen.dart
+│           └── orders/
+│               └── orders_screen.dart
+│
+├── web-admin/                          # React + Vite — Admin Panel
+│   └── src/
+│       ├── main.tsx
+│       ├── App.tsx
+│       ├── pages/
+│       │   ├── Login.tsx
+│       │   ├── Dashboard.tsx
+│       │   ├── Orders.tsx, Dispatch.tsx, Returns.tsx
+│       │   ├── Products.tsx, Categories.tsx, Inventory.tsx
+│       │   ├── Customers.tsx, Riders.tsx, Vendors.tsx, Staff.tsx
+│       │   ├── Finance.tsx, Payouts.tsx
+│       │   ├── Analytics.tsx, Reports.tsx
+│       │   ├── Promos.tsx, Notifications.tsx, Banners.tsx
+│       │   ├── LiveMonitor.tsx, Delivery.tsx
+│       │   ├── Support.tsx, Settings.tsx, ActivityLogs.tsx
+│       │   └── Users.tsx
+│       ├── components/
+│       │   ├── Layout.tsx
+│       │   ├── DataTable.tsx
+│       │   ├── StatCard.tsx
+│       │   ├── StatusBadge.tsx
+│       │   ├── SectionHeader.tsx
+│       │   ├── SearchField.tsx
+│       │   ├── charts/
+│       │   ├── tables/
+│       │   └── ui/
+│       ├── lib/
+│       │   ├── api.ts
+│       │   └── firebase.ts
+│       └── store/
+│           └── authStore.ts
+│
+├── web-user/                           # Next.js 14 — User Website
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   ├── globals.css
+│   │   ├── (auth)/
+│   │   │   ├── login/page.tsx
+│   │   │   └── register/page.tsx
+│   │   └── (main)/
+│   │       ├── page.tsx
+│   │       ├── layout.tsx
+│   │       ├── cart/page.tsx
+│   │       ├── checkout/page.tsx
+│   │       ├── orders/page.tsx
+│   │       ├── category/[slug]/page.tsx
+│   │       └── product/[id]/page.tsx
+│   └── src/
+│       ├── components/
+│       ├── hooks/
+│       ├── store/
+│       ├── lib/
+│       └── types/
+│
+└── shared/                             # Common TypeScript types & constants
+    ├── constants/
+    │   ├── config.ts
+    │   └── status.ts
+    └── types/
+        ├── index.ts
+        ├── category.types.ts
+        ├── product.types.ts
+        ├── order.types.ts
+        └── user.types.ts
 ```
 
 ---
