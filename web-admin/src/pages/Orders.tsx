@@ -14,10 +14,10 @@ interface Order {
   items: any[];
 }
 
-const STATUSES = ["pending", "confirmed", "processing", "shipped", "delivered", "cancelled"];
+const STATUSES = ["pending", "confirmed", "processing", "shipped", "delivered", "cancelled", "returned"];
 const STATUS_LABEL: Record<string, string> = {
   pending: "অপেক্ষমান", confirmed: "নিশ্চিত", processing: "প্রস্তুত",
-  shipped: "পাঠানো", delivered: "পৌঁছেছে", cancelled: "বাতিল",
+  shipped: "পাঠানো", delivered: "পৌঁছেছে", cancelled: "বাতিল", returned: "ফেরত",
 };
 const STATUS_COLORS: Record<string, string> = {
   pending: "bg-yellow-500/15 text-yellow-400",
