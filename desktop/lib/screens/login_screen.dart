@@ -19,11 +19,11 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _login() async {
     setState(() { _loading = true; _error = null; });
     try {
-      final ok = await AuthService.login(_emailCtrl.text.trim(), _passCtrl.text);
-      if (ok) {
+      final error = await AuthService.login(_emailCtrl.text.trim(), _passCtrl.text);
+      if (error == null) {
         widget.onLoginSuccess();
       } else {
-        setState(() => _error = 'ইমেইল বা পাসওয়ার্ড ভুল');
+        setState(() => _error = error);
       }
     } catch (e) {
       setState(() => _error = 'লগইন ত্রুটি: $e');
