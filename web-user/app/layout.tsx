@@ -1,16 +1,20 @@
-"use client";
-import { useState } from "react";
-import Navbar from "@/components/layout/Navbar";
-import CartPanel from "@/components/layout/CartPanel";
+import "./globals.css";
+import { Hind_Siliguri, Tiro_Bangla } from "next/font/google";
 
-export default function MainLayout({ children }: { children: React.ReactNode }) {
-  const [cartOpen, setCartOpen] = useState(false);
+const hind = Hind_Siliguri({ subsets: ["bengali"], weight: "400" });
+const tiro = Tiro_Bangla({ subsets: ["bengali"], weight: "400" });
 
+export const metadata = {
+  title: "ফ্রেশ কর্নার - তাজা বাজার দোরগোড়ায়",
+  description: "বাংলাদেশের সবচেয়ে বিশ্বস্ত অনলাইন কৃষি বাজার",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen" style={{ background: "var(--bg)" }}>
-      <Navbar onCartOpen={() => setCartOpen(true)} />
-      <CartPanel open={cartOpen} onClose={() => setCartOpen(false)} />
-      <main className="pb-16 md:pb-0">{children}</main>
-    </div>
+    <html lang="bn">
+      <body className={hind.className}>
+        {children}
+      </body>
+    </html>
   );
 }
