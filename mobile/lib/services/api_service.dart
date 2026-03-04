@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class ApiService {
   static const String baseUrl = String.fromEnvironment(
     'API_URL',
-    defaultValue: 'https://fresh-corner-api.onrender.com',
+    defaultValue: 'http://192.168.0.106:5000',
   );
 
   static Future<String?> _getToken() async {
