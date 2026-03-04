@@ -117,7 +117,7 @@ class FreshCornerApp extends StatelessWidget {
           return const IconThemeData(color: Colors.grey);
         }),
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         color: Colors.white,
