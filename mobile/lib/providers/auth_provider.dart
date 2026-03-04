@@ -28,10 +28,18 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> _fetchAppUser() async {
     try {
-      final data = await ApiService.get('/api/auth/me');
+      // Set timeout for API call (10 seconds)
+      final data = await ApiService.get('/api/auth/me').timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          throw Exception('API request timeout');
+        },
+      );
       _appUser = AppUser.fromMap(data, _firebaseUser!.uid);
     } catch (e) {
       debugPrint('Failed to fetch app user: $e');
+      // Still allow login even if profile fetch fails
+      _appUser = null;
     }
   }
 
