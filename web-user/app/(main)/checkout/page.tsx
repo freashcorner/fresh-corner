@@ -57,64 +57,61 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-64">
-        <div className="text-gray-400 font-bangla mb-4">কার্ট খালি</div>
-        <Link href="/" className="bg-[#2ECC71] text-white px-6 py-2.5 rounded-xl text-sm font-bangla">কেনাকাটা করুন</Link>
+      <div className="page-container">
+        <div className="empty-state">
+          <p className="font-bangla text-lg mb-4">কার্ট খালি</p>
+          <Link href="/shop" className="btn-primary font-bangla">কেনাকাটা করুন</Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="px-4 py-4">
-      <h1 className="text-lg font-bold text-gray-800 font-bangla mb-4">চেকআউট</h1>
+    <div className="page-container" style={{ maxWidth: '800px' }}>
+      <h1 className="text-2xl font-bold font-bangla mb-6">চেকআউট</h1>
 
       <form onSubmit={handleOrder} className="space-y-4">
-        {/* Delivery Address */}
-        <div className="bg-white rounded-xl p-4 shadow-sm">
-          <h2 className="text-sm font-semibold text-gray-700 font-bangla mb-3">ডেলিভারি তথ্য</h2>
-          <div className="space-y-2.5">
-            <input placeholder="নাম" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} required className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#2ECC71] font-bangla" />
-            <input placeholder="ফোন নম্বর" value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})} required className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#2ECC71]" />
-            <input placeholder="রাস্তা ও বাড়ি নম্বর" value={form.street} onChange={(e) => setForm({...form, street: e.target.value})} required className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#2ECC71] font-bangla" />
-            <input placeholder="এলাকা" value={form.area} onChange={(e) => setForm({...form, area: e.target.value})} required className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#2ECC71] font-bangla" />
-            <textarea placeholder="বিশেষ নির্দেশনা (ঐচ্ছিক)" value={form.note} onChange={(e) => setForm({...form, note: e.target.value})} rows={2} className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#2ECC71] resize-none font-bangla" />
-          </div>
+        <div className="checkout-section">
+          <h2 className="font-bangla">ডেলিভারি তথ্য</h2>
+          <input placeholder="নাম" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} required className="font-bangla" />
+          <input placeholder="ফোন নম্বর" value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})} required />
+          <input placeholder="রাস্তা ও বাড়ি নম্বর" value={form.street} onChange={(e) => setForm({...form, street: e.target.value})} required className="font-bangla" />
+          <input placeholder="এলাকা" value={form.area} onChange={(e) => setForm({...form, area: e.target.value})} required className="font-bangla" />
+          <textarea placeholder="বিশেষ নির্দেশনা (ঐচ্ছিক)" value={form.note} onChange={(e) => setForm({...form, note: e.target.value})} rows={2} className="font-bangla resize-none" />
         </div>
 
-        {/* Payment */}
-        <div className="bg-white rounded-xl p-4 shadow-sm">
-          <h2 className="text-sm font-semibold text-gray-700 font-bangla mb-3">পেমেন্ট পদ্ধতি</h2>
-          <div className="space-y-2">
+        <div className="checkout-section">
+          <h2 className="font-bangla">পেমেন্ট পদ্ধতি</h2>
+          <div className="space-y-3">
             {[
               { value: "cod", label: "ক্যাশ অন ডেলিভারি" },
               { value: "bkash", label: "বিকাশ" },
               { value: "nagad", label: "নগদ" },
             ].map(({ value, label }) => (
               <label key={value} className="flex items-center gap-3 cursor-pointer">
-                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${paymentMethod === value ? "border-[#2ECC71]" : "border-gray-300"}`}>
-                  {paymentMethod === value && <div className="w-2.5 h-2.5 rounded-full bg-[#2ECC71]" />}
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${paymentMethod === value ? "border-[var(--g1)]" : "border-[var(--border)]"}`}>
+                  {paymentMethod === value && <div className="w-2.5 h-2.5 rounded-full bg-[var(--g1)]" />}
                 </div>
                 <input type="radio" name="payment" value={value} checked={paymentMethod === value} onChange={() => setPaymentMethod(value)} className="hidden" />
-                <span className="text-sm text-gray-700 font-bangla">{label}</span>
+                <span className="text-sm font-bangla">{label}</span>
               </label>
             ))}
           </div>
         </div>
 
-        {/* Summary */}
-        <div className="bg-white rounded-xl p-4 shadow-sm">
-          <div className="flex justify-between text-sm text-gray-600 font-bangla mb-1">
+        <div className="checkout-section">
+          <div className="flex justify-between text-sm text-[var(--text2)] font-bangla mb-1">
             <span>পণ্যের মূল্য ({items.length}টি)</span><span>৳{total()}</span>
           </div>
-          <div className="flex justify-between text-sm text-gray-600 font-bangla mb-2">
+          <div className="flex justify-between text-sm text-[var(--text2)] font-bangla mb-3">
             <span>ডেলিভারি চার্জ</span><span>৳{DELIVERY}</span>
           </div>
-          <div className="flex justify-between font-bold text-gray-800 font-bangla text-base border-t pt-2">
-            <span>মোট</span><span className="text-[#FF6B35]">৳{grand}</span>
+          <div className="flex justify-between font-bold text-lg border-t border-[var(--border)] pt-3">
+            <span className="font-bangla">মোট</span><span className="text-[var(--g1)]">৳{grand}</span>
           </div>
         </div>
 
-        <button type="submit" disabled={loading} className="w-full bg-[#2ECC71] hover:bg-[#27AE60] disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-colors font-bangla text-base">
+        <button type="submit" disabled={loading} className="btn-primary w-full justify-center font-bangla text-lg disabled:opacity-50">
           {loading ? "অর্ডার হচ্ছে..." : `অর্ডার নিশ্চিত করুন — ৳${grand}`}
         </button>
       </form>

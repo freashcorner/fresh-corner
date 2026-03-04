@@ -1,12 +1,16 @@
+"use client";
+import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
-import BottomNav from "@/components/layout/BottomNav";
+import CartPanel from "@/components/layout/CartPanel";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
+  const [cartOpen, setCartOpen] = useState(false);
+
   return (
-    <div className="max-w-lg mx-auto min-h-screen bg-[#F4F6F8]">
-      <Navbar />
-      <main className="pb-20">{children}</main>
-      <BottomNav />
+    <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
+      <Navbar onCartOpen={() => setCartOpen(true)} />
+      <CartPanel open={cartOpen} onClose={() => setCartOpen(false)} />
+      <main style={{ paddingBottom: "4rem" }}>{children}</main>
     </div>
   );
 }

@@ -5,8 +5,14 @@ import { auth } from "@/lib/firebase";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
-declare global { interface Window { recaptchaVerifier: RecaptchaVerifier; confirmationResult: ConfirmationResult; } }
+declare global {
+  interface Window {
+    recaptchaVerifier: RecaptchaVerifier;
+    confirmationResult: ConfirmationResult;
+  }
+}
 
 export default function LoginPage() {
   const [phone, setPhone] = useState("");
@@ -40,9 +46,7 @@ export default function LoginPage() {
   async function verifyOTP() {
     setLoading(true);
     try {
-      const result = await window.confirmationResult.confirm(otp);
-      const user = result.user;
-      // Check if user exists
+      await window.confirmationResult.confirm(otp);
       try {
         await api.get("/api/auth/me");
         router.push("/");
@@ -70,68 +74,97 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1A4731] to-[#2ECC71] flex items-end">
+    <div className="login-page">
       <div id="recaptcha-container" />
-      <div className="w-full bg-white rounded-t-3xl px-6 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-800 font-tiro">ফ্রেশ কর্নার</h1>
-          <p className="text-gray-400 text-sm font-bangla mt-1">তাজা বাজার, দোরগোড়ায় ডেলিভারি</p>
+      <div className="login-card">
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+          <div style={{
+            width: 64, height: 64, background: "var(--g1)", borderRadius: 18,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: "2rem", margin: "0 auto 1rem"
+          }}>🌿</div>
+          <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--g1)", fontFamily: "'Tiro Bangla', serif" }}>
+            ফ্রেশ কর্নার
+          </h1>
+          <p style={{ color: "var(--text2)", fontSize: "0.875rem", marginTop: "0.25rem" }} className="font-bangla">
+            তাজা বাজার, দোরগোড়ায় ডেলিভারি
+          </p>
         </div>
 
         {step === "phone" && (
-          <div className="space-y-4">
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             <div>
-              <label className="text-xs text-gray-500 font-bangla mb-1.5 block">মোবাইল নম্বর</label>
-              <div className="flex gap-2">
-                <div className="flex items-center bg-gray-100 rounded-xl px-3 text-sm text-gray-600 font-bold">🇧🇩 +88</div>
+              <label style={{ fontSize: "0.78rem", color: "var(--text2)", display: "block", marginBottom: "0.4rem" }} className="font-bangla">
+                মোবাইল নম্বর
+              </label>
+              <div style={{ display: "flex", gap: "0.5rem" }}>
+                <div style={{
+                  display: "flex", alignItems: "center",
+                  background: "var(--bg)", border: "1px solid var(--border)",
+                  borderRadius: 12, padding: "0 0.875rem",
+                  fontSize: "0.875rem", color: "var(--text2)", fontWeight: 700
+                }}>+88</div>
                 <input
-                  type="tel"
-                  placeholder="01XXXXXXXXX"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2ECC71]"
+                  type="tel" placeholder="01XXXXXXXXX"
+                  value={phone} onChange={(e) => setPhone(e.target.value)}
+                  style={{ flex: 1 }}
                 />
               </div>
             </div>
-            <button onClick={sendOTP} disabled={loading || phone.length < 10} className="w-full bg-[#2ECC71] hover:bg-[#27AE60] disabled:opacity-50 text-white font-bold py-3.5 rounded-xl font-bangla">
+            <button
+              onClick={sendOTP}
+              disabled={loading || phone.length < 10}
+              className="btn-primary font-bangla"
+              style={{ justifyContent: "center", opacity: loading || phone.length < 10 ? 0.5 : 1 }}
+            >
               {loading ? "পাঠানো হচ্ছে..." : "OTP পাঠান"}
             </button>
+            <p style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--text2)" }} className="font-bangla">
+              একাউন্ট নেই?{" "}
+              <Link href="/register" style={{ color: "var(--g1)", textDecoration: "none" }}>নিবন্ধন করুন</Link>
+            </p>
           </div>
         )}
 
         {step === "otp" && (
-          <div className="space-y-4">
-            <div>
-              <label className="text-xs text-gray-500 font-bangla mb-1.5 block">OTP কোড লিখুন</label>
-              <input
-                type="number"
-                placeholder="6 সংখ্যার OTP"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                maxLength={6}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-center text-2xl font-bold outline-none focus:border-[#2ECC71] tracking-widest"
-              />
-            </div>
-            <button onClick={verifyOTP} disabled={loading || otp.length < 6} className="w-full bg-[#2ECC71] hover:bg-[#27AE60] disabled:opacity-50 text-white font-bold py-3.5 rounded-xl font-bangla">
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <input
+              type="number" placeholder="6 সংখ্যার OTP"
+              value={otp} onChange={(e) => setOtp(e.target.value)}
+              maxLength={6}
+              style={{ textAlign: "center", fontSize: "1.5rem", fontWeight: 700, letterSpacing: "0.25em" }}
+            />
+            <button
+              onClick={verifyOTP}
+              disabled={loading || otp.length < 6}
+              className="btn-primary font-bangla"
+              style={{ justifyContent: "center" }}
+            >
               {loading ? "যাচাই হচ্ছে..." : "যাচাই করুন"}
             </button>
-            <button onClick={() => setStep("phone")} className="w-full text-gray-400 text-sm font-bangla">পেছনে যান</button>
+            <button
+              onClick={() => setStep("phone")}
+              style={{ background: "transparent", border: "none", color: "var(--text2)", cursor: "pointer", fontSize: "0.875rem" }}
+              className="font-bangla"
+            >
+              পেছনে যান
+            </button>
           </div>
         )}
 
         {step === "register" && (
-          <div className="space-y-4">
-            <div>
-              <label className="text-xs text-gray-500 font-bangla mb-1.5 block">আপনার নাম</label>
-              <input
-                type="text"
-                placeholder="নাম লিখুন"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2ECC71] font-bangla"
-              />
-            </div>
-            <button onClick={handleRegister} disabled={loading || !name} className="w-full bg-[#2ECC71] hover:bg-[#27AE60] disabled:opacity-50 text-white font-bold py-3.5 rounded-xl font-bangla">
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <input
+              type="text" placeholder="নাম লিখুন"
+              value={name} onChange={(e) => setName(e.target.value)}
+              className="font-bangla"
+            />
+            <button
+              onClick={handleRegister}
+              disabled={loading || !name}
+              className="btn-primary font-bangla"
+              style={{ justifyContent: "center" }}
+            >
               {loading ? "নিবন্ধন হচ্ছে..." : "নিবন্ধন করুন"}
             </button>
           </div>

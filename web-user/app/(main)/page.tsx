@@ -29,26 +29,26 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-glow" />
-        <div className="hero-content" style={{ paddingTop: "64px" }}>
+        <div className="hero-content">
           <div className="hero-text">
             <div className="hero-badge">
-              <span className="pulse" />
+              <span className="pulse"></span>
               ১০০% তাজা ও সতেজ
             </div>
-            <h1 className="font-tiro">
+            <h1>
               তাজা বাজার
               <br />
               <span className="text-gradient">দোরগোড়ায়</span>
             </h1>
-            <p className="hero-desc font-bangla">
+            <p className="hero-desc">
               সেরা মানের শাকসবজি, ফল ও মুদিখানা পণ্য এখন আপনার হাতের নাগালে। 
               দ্রুত ডেলিভারি, সেরা দাম।
             </p>
             <div className="hero-actions">
-              <Link href="/shop" className="btn-primary font-bangla">
+              <Link href="/shop" className="btn-primary">
                 কেনাকাটা শুরু করুন →
               </Link>
-              <Link href="/tracking" className="btn-outline font-bangla">
+              <Link href="/tracking" className="btn-outline">
                 অর্ডার ট্র্যাক করুন
               </Link>
             </div>
@@ -68,37 +68,44 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="hero-visual">
-            <div className="mock-phone">
-              <div className="mock-notch" />
-              <div className="mock-screen">
-                <div className="ms-status">
+            <div className="mock-phone" style={{
+              width: "280px",
+              background: "#0a1a10",
+              border: "2px solid rgba(46,204,113,.22)",
+              borderRadius: "40px",
+              padding: "12px",
+              boxShadow: "0 40px 90px rgba(0,0,0,.55)"
+            }}>
+              <div style={{ width: "72px", height: "5px", background: "rgba(255,255,255,.1)", borderRadius: "10px", margin: "0 auto 10px" }}></div>
+              <div style={{ background: "#F4F6F8", borderRadius: "28px", overflow: "hidden", minHeight: "500px", color: "#0F1E14" }}>
+                <div style={{ background: "#2ECC71", padding: "7px 14px", display: "flex", justifyContent: "space-between", fontSize: "8.5px", color: "#fff", fontWeight: "600" }}>
                   <span>🥬 FreshCorner</span>
                   <span>🛒 3</span>
                 </div>
-                <div className="ms-head">
-                  <div className="ms-loc">Deliver to</div>
-                  <div className="ms-loc-main">Home - Bashundhara R/A</div>
+                <div style={{ background: "#2ECC71", padding: "10px 12px 20px" }}>
+                  <div style={{ fontSize: "8px", color: "rgba(255,255,255,.8)", marginBottom: "3px" }}>Deliver to</div>
+                  <div style={{ fontSize: "10px", fontWeight: "700" }}>Home - Bashundhara R/A</div>
                 </div>
-                <div className="ms-card">
-                  <div className="ms-prod">
-                    <div className="ms-p-img">🥬</div>
+                <div style={{ background: "#fff", borderRadius: "12px", padding: "10px", margin: "8px", boxShadow: "0 2px 8px rgba(0,0,0,.08)" }}>
+                  <div style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}>
+                    <div style={{ width: "40px", height: "40px", background: "#D5F5E3", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem" }}>🥬</div>
                     <div>
-                      <div className="ms-p-n">সবুজ শসা</div>
-                      <div className="ms-p-p">৳৪০/কেজি</div>
+                      <div style={{ fontSize: "9px", fontWeight: "600" }}>সবুজ শসা</div>
+                      <div style={{ fontSize: "8px", color: "#5D6D7E" }}>৳৪০/কেজি</div>
                     </div>
                   </div>
-                  <div className="ms-prod">
-                    <div className="ms-p-img">🍅</div>
+                  <div style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}>
+                    <div style={{ width: "40px", height: "40px", background: "#D5F5E3", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem" }}>🍅</div>
                     <div>
-                      <div className="ms-p-n">টমেটো</div>
-                      <div className="ms-p-p">৳৬০/কেজি</div>
+                      <div style={{ fontSize: "9px", fontWeight: "600" }}>টমেটো</div>
+                      <div style={{ fontSize: "8px", color: "#5D6D7E" }}>৳৬০/কেজি</div>
                     </div>
                   </div>
-                  <button className="ms-cta">অর্ডার করুন</button>
+                  <button style={{ background: "#2ECC71", color: "#fff", border: "none", padding: "8px", borderRadius: "8px", fontSize: "8px", fontWeight: "600", width: "100%" }}>অর্ডার করুন</button>
                 </div>
-                <div className="ms-cart">
-                  <span className="ms-c-l">৩টি পণ্য</span>
-                  <span className="ms-c-r">৳৪৫০</span>
+                <div style={{ display: "flex", justifyContent: "space-between", padding: "8px 12px", background: "#fff", borderRadius: "8px", margin: "8px" }}>
+                  <span style={{ fontSize: "9px" }}>৩টি পণ্য</span>
+                  <span style={{ fontSize: "9px", fontWeight: "700", color: "#2ECC71" }}>৳৪৫০</span>
                 </div>
               </div>
             </div>
@@ -109,48 +116,46 @@ export default async function HomePage() {
       {/* Trust Bar */}
       <div className="trust-bar">
         <div className="trust-item">
-          <span className="trust-i">🚚</span>
+          <span className="icon">🚚</span>
           <div>
-            <div className="trust-t">দ্রুত ডেলিভারি</div>
-            <div className="trust-d">৩০ মিনিটে</div>
+            <h4>দ্রুত ডেলিভারি</h4>
+            <p>৩০ মিনিটে</p>
           </div>
         </div>
         <div className="trust-item">
-          <span className="trust-i">🥬</span>
+          <span className="icon">🥬</span>
           <div>
-            <div className="trust-t">১০০% তাজা</div>
-            <div className="trust-d">খামার থেকে</div>
+            <h4>১০০% তাজা</h4>
+            <p>খামার থেকে</p>
           </div>
         </div>
         <div className="trust-item">
-          <span className="trust-i">💰</span>
+          <span className="icon">💰</span>
           <div>
-            <div className="trust-t">সেরা দাম</div>
-            <div className="trust-d">গ্যারান্টি</div>
+            <h4>সেরা দাম</h4>
+            <p>গ্যারান্টি</p>
           </div>
         </div>
         <div className="trust-item">
-          <span className="trust-i">🔒</span>
+          <span className="icon">🔒</span>
           <div>
-            <div className="trust-t">নিরাপদ পেমেন্ট</div>
-            <div className="trust-d">বিকাশ/নগদ</div>
+            <h4>নিরাপদ পেমেন্ট</h4>
+            <p>বিকাশ/নগদ</p>
           </div>
         </div>
       </div>
 
       {/* Categories */}
-      <div className="page-container" style={{ paddingTop: 0 }}>
+      <div className="page-container">
         <div className="section-header">
-          <h2 className="font-bangla">ক্যাটাগরি</h2>
-          <Link href="/shop" className="font-bangla" style={{ color: "var(--g1)", fontSize: "0.875rem" }}>
-            সব দেখুন →
-          </Link>
+          <h2>ক্যাটাগরি</h2>
+          <Link href="/shop">সব দেখুন →</Link>
         </div>
         <div className="cat-grid">
           {categories.length > 0 ? categories.map((c: any) => (
             <Link key={c.id} href={`/category/${c.slug}`} className="cat-card">
-              <div className="cat-icon">{c.icon || "🛒"}</div>
-              <div className="cat-name font-bangla">{c.name}</div>
+              <div className="icon">{c.icon || "🛒"}</div>
+              <div className="name">{c.name}</div>
             </Link>
           )) : (
             [
@@ -164,8 +169,8 @@ export default async function HomePage() {
               { icon: "🧃", name: "পানীয়", slug: "drinks" },
             ].map((c) => (
               <Link key={c.slug} href={`/category/${c.slug}`} className="cat-card">
-                <div className="cat-icon">{c.icon}</div>
-                <div className="cat-name font-bangla">{c.name}</div>
+                <div className="icon">{c.icon}</div>
+                <div className="name">{c.name}</div>
               </Link>
             ))
           )}
@@ -173,26 +178,24 @@ export default async function HomePage() {
       </div>
 
       {/* Featured Products */}
-      <div className="page-container" style={{ paddingTop: "1rem" }}>
+      <div className="page-container">
         <div className="section-header">
-          <h2 className="font-bangla">বিশেষ অফার</h2>
-          <Link href="/shop" className="font-bangla" style={{ color: "var(--g1)", fontSize: "0.875rem" }}>
-            সব দেখুন →
-          </Link>
+          <h2>বিশেষ অফার</h2>
+          <Link href="/shop">সব দেখুন →</Link>
         </div>
         <div className="products-grid">
           {featured.length > 0 ? featured.map((p: any) => (
             <ProductCard key={p.id} {...p} />
           )) : (
             [
-              { id: "1", name: "সবুজ শসা", price: 40, unit: "কেজی", imageUrl: "", categoryId: "vegetables" },
-              { id: "2", name: "টমেটো", price: 60, unit: "কেজি", imageUrl: "", categoryId: "vegetables" },
-              { id: "3", name: "ব্রোকলি", price: 80, unit: "পিস", imageUrl: "", categoryId: "vegetables" },
-              { id: "4", name: "গাজর", price: 50, unit: "কেজি", imageUrl: "", categoryId: "vegetables" },
-              { id: "5", name: "আপেল", price: 150, unit: "কেজি", imageUrl: "", categoryId: "fruits" },
-              { id: "6", name: "কমলা", price: 100, unit: "কেজি", imageUrl: "", categoryId: "fruits" },
-              { id: "7", name: "কলা", price: 60, unit: "পিস", imageUrl: "", categoryId: "fruits" },
-              { id: "8", name: "আঙুর", price: 200, unit: "কেজি", imageUrl: "", categoryId: "fruits" },
+              { id: "1", name: "সবুজ শসা", price: 40, unit: "কেজি", imageUrl: "" },
+              { id: "2", name: "টমেটো", price: 60, unit: "কেজি", imageUrl: "" },
+              { id: "3", name: "ব্রোকলি", price: 80, unit: "পিস", imageUrl: "" },
+              { id: "4", name: "গাজর", price: 50, unit: "কেজি", imageUrl: "" },
+              { id: "5", name: "আপেল", price: 150, unit: "কেজি", imageUrl: "" },
+              { id: "6", name: "কমলা", price: 100, unit: "কেজি", imageUrl: "" },
+              { id: "7", name: "কলা", price: 60, unit: "পিস", imageUrl: "" },
+              { id: "8", name: "আঙুর", price: 200, unit: "কেজি", imageUrl: "" },
             ].map((p) => <ProductCard key={p.id} {...p} />)
           )}
         </div>
