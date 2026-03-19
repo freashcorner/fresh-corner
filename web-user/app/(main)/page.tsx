@@ -157,23 +157,7 @@ export default async function HomePage() {
               <div className="icon">{c.icon || "🛒"}</div>
               <div className="name">{c.name}</div>
             </Link>
-          )) : (
-            [
-              { icon: "🥬", name: "শাকসবজি", slug: "vegetables" },
-              { icon: "🍎", name: "ফলমূল", slug: "fruits" },
-              { icon: "🐟", name: "মাছ", slug: "fish" },
-              { icon: "🍖", name: "মাংস", slug: "meat" },
-              { icon: "🍚", name: "চাল ও ডাল", slug: "rice" },
-              { icon: "🫙", name: "মসলা", slug: "spices" },
-              { icon: "🥛", name: "দুগ্ধ পণ্য", slug: "dairy" },
-              { icon: "🧃", name: "পানীয়", slug: "drinks" },
-            ].map((c) => (
-              <Link key={c.slug} href={`/category/${c.slug}`} className="cat-card">
-                <div className="icon">{c.icon}</div>
-                <div className="name">{c.name}</div>
-              </Link>
-            ))
-          )}
+           )) : null}
         </div>
       </div>
 
@@ -186,17 +170,18 @@ export default async function HomePage() {
         <div className="products-grid">
           {featured.length > 0 ? featured.map((p: any) => (
             <ProductCard key={p.id} {...p} />
-          )) : (
-            [
-              { id: "1", name: "সবুজ শসা", price: 40, unit: "কেজি", imageUrl: "" },
-              { id: "2", name: "টমেটো", price: 60, unit: "কেজি", imageUrl: "" },
-              { id: "3", name: "ব্রোকলি", price: 80, unit: "পিস", imageUrl: "" },
-              { id: "4", name: "গাজর", price: 50, unit: "কেজি", imageUrl: "" },
-              { id: "5", name: "আপেল", price: 150, unit: "কেজি", imageUrl: "" },
-              { id: "6", name: "কমলা", price: 100, unit: "কেজি", imageUrl: "" },
-              { id: "7", name: "কলা", price: 60, unit: "পিস", imageUrl: "" },
-              { id: "8", name: "আঙুর", price: 200, unit: "কেজি", imageUrl: "" },
-            ].map((p) => <ProductCard key={p.id} {...p} />)
+          ) : (
+            <div style={{ 
+              gridColumn: '1/-1', 
+              textAlign: 'center', 
+              padding: '40px 20px',
+              color: 'var(--text2)'
+            }}>
+              <div style={{ fontSize: '3rem', marginBottom: '12px' }}>🛒</div>
+              <p className="font-bangla" style={{ fontSize: '16px' }}>
+                শীঘ্রই পণ্য আসছে...
+              </p>
+            </div>
           )}
         </div>
       </div>
