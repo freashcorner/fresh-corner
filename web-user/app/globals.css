@@ -194,6 +194,21 @@ body {
 .btn-outline:hover {
   background: rgba(46, 204, 113, 0.1);
 }
+.buy-now-btn {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.buy-now-btn:active {
+  background: #d97706;
+}
 
 /* ═══ Trust Bar ═══ */
 .trust-bar {
